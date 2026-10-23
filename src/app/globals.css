@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* Mega Mall brand: warm orange on clean white, deep navy for the hero, WhatsApp green for chat. */
+@theme {
+  --font-sans: "Outfit Variable", "Segoe UI", system-ui, sans-serif;
+
+  --color-brand-50: #fff4ec;
+  --color-brand-100: #ffe4d1;
+  --color-brand-500: #f57a1f;
+  --color-brand-600: #e8650c;
+  --color-brand-700: #c2520a;
+  --color-ink: #141823;
+  --color-muted: #687083;
+  --color-line: #e7e8ec;
+  --color-canvas: #f6f6f8;
+  --color-navy: #0b1120;
+  --color-navy-2: #141c33;
+  --color-sale: #e11d48;
+  --color-whatsapp: #16a34a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+}
+
+/* Scrolling offer bar */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ticker-track {
+  animation: ticker 40s linear infinite;
+}
+.ticker-paused .ticker-track {
+  animation-play-state: paused;
+}
+
+/* Cart number bumps when something is added */
+@keyframes cart-bump {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.45); }
+  100% { transform: scale(1); }
+}
+.cart-bump {
+  animation: cart-bump 0.45s ease-out;
+}
+
+/* Horizontal product rows */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Product description written in the admin rich editor */
+.prose-mm p { margin: 0 0 0.75rem; }
+.prose-mm ul { list-style: disc; padding-left: 1.25rem; margin: 0 0 0.75rem; }
+.prose-mm ol { list-style: decimal; padding-left: 1.25rem; margin: 0 0 0.75rem; }
+.prose-mm h2, .prose-mm h3 { font-weight: 600; margin: 1rem 0 0.5rem; }
+.prose-mm h2 { font-size: 1.2rem; }
+.prose-mm li { margin-bottom: 0.25rem; }
+.prose-mm a { color: var(--color-brand-600); text-decoration: underline; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  .cart-bump { animation: none; }
+  html { scroll-behavior: auto; }
+}
