@@ -1,0 +1,18 @@
+{
+  "app": {
+    "[project]/src/app/_not-found/page": [],
+    "[project]/src/app/category/[slug]/page": [],
+    "[project]/src/app/checkout/page": [],
+    "[project]/src/app/order/[number]/page": [],
+    "[project]/src/app/page": [],
+    "[project]/src/app/pages/[slug]/page": [],
+    "[project]/src/app/product/[slug]/page": [],
+    "[project]/src/app/products/page": [],
+    "[project]/src/app/returns/page": [],
+    "[project]/src/app/track/page": [],
+    "[project]/src/app/wishlist/page": []
+  },
+  "appUsingSizeAdjust": false,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

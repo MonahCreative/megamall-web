@@ -1,0 +1,37 @@
+{
+  "status": 200,
+  "headers": {
+    "link": "</>; rel=preconnect; crossorigin=\"\"",
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/wishlist/layout,_N_T_/wishlist/page,_N_T_/wishlist"
+  },
+  "postponed": "1799:[1,{\"nextSegmentId\":4,\"rootFormatContext\":{\"insertionMode\":0,\"selectedValue\":null,\"tagScope\":0,\"viewTransition\":null},\"progressiveChunkSize\":12800,\"resumableState\":{\"idPrefix\":\"\",\"nextFormID\":0,\"streamingFormat\":0,\"instructions\":96,\"hasBody\":true,\"hasHtml\":true,\"unknownResources\":{},\"dnsResources\":{},\"connectResources\":{\"default\":{},\"anonymous\":{\"/\":null},\"credentials\":{}},\"imageResources\":{},\"styleResources\":{\"/_next/static/chunks/33fwqbjf2v5ph.css\":null},\"scriptResources\":{\"/_next/static/chunks/1x6obpmlu1_c2.js\":null,\"/_next/static/chunks/0ssqr03lk-c8r.js\":null,\"/_next/static/chunks/2ki52vdnbo2ft.js\":null,\"/_next/static/chunks/2j5x_ukdjbtxo.js\":null,\"/_next/static/chunks/turbopack-3-ry682tkyiqk.js\":null,\"/_next/static/chunks/1tq6ppe__m8m-.js\":null,\"/_next/static/chunks/1gvpae_se75vl.js\":null,\"/_next/static/chunks/3b1t4romp2lbc.js\":null,\"/_next/static/chunks/0loudk82y52es.js\":null},\"moduleUnknownResources\":{},\"moduleScriptResources\":{\"/_next/static/chunks/1x6obpmlu1_c2.js\":null}},\"replayNodes\":[[\"sl\",0,[[\"Context\",0,[[\"Context\",0,[[\"ServerInsertedHTMLProvider\",0,[[\"Context\",0,[[\"io\",0,[[\"aV\",0,[[\"az\",0,[[\"aq\",0,[[\"is\",0,[[\"Fragment\",0,[[\"Context\",2,[[\"Context\",0,[[\"Context\",0,[[\"Context\",0,[[\"Context\",0,[[\"Context\",0,[[\"Context\",0,[[\"aV\",0,[[\"az\",0,[[\"aq\",0,[[\"ai\",0,[[\"aa\",0,[[\"__next_root_layout_boundary__\",1,[[\"Fragment\",\"c\",[[\"html\",1,[[\"body\",0,[[\"Suspense\",0,[],0,[\"Suspense Fallback\",0,[],null],0],[\"Suspense\",1,[],1,[\"Suspense Fallback\",1,[],null],1],[\"Suspense\",3,[],2,[\"Suspense Fallback\",3,[],null],2],[\"Suspense\",5,[],3,[\"Suspense Fallback\",5,[],null],3]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],null]],\"replaySlots\":null}]null",
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/wishlist/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 49216,
+    "slots": {
+      "children": {
+        "hints": 49248,
+        "slots": {
+          "children": {
+            "hints": 49312,
+            "slots": null
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/d057e3265aa486a18ff348c8a8b4a820da40a8b25407f2b7c72144ebc15447a7/$/wishlist",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/wishlist/page"
+    },
+    "isFallback": false
+  }
+}

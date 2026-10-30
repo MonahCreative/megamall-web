@@ -1,0 +1,37 @@
+1:"$Sreact.fragment"
+2:"$Sreact.suspense"
+5:"/_next/static/chunks/1tq6ppe__m8m-.js"
+6:"/_next/static/chunks/1gvpae_se75vl.js"
+7:I[39756,["$5","$6"],"default"]
+8:"/_next/static/chunks/3b1t4romp2lbc.js"
+9:I[58298,["$5","$6","$8"],"default"]
+a:I[37457,["$5","$6"],"default"]
+b:I[22016,["$5","$6"],""]
+d:I[7253,["$5","$6"],"CartDrawer"]
+19:I[97367,["$5","$6"],"OutletBoundary"]
+1d:"ViewportBoundary"
+1e:I[97367,["$5","$6"],"$1d"]
+1f:"MetadataBoundary"
+20:I[97367,["$5","$6"],"$1f"]
+:HL["/_next/static/chunks/33fwqbjf2v5ph.css","style"]
+10:X
+11:X
+11:300
+14:X
+14:C
+1c:X
+17:[["children",{"s":"__PAGE__","h":16546,"d":{"r":["$","$1","c",{"children":[["$","div",null,{"className":"mx-auto max-w-3xl px-4 pt-8","children":["$","$2",null,{"fallback":["$","div",null,{"className":"h-96 animate-pulse rounded-3xl bg-white"}],"children":"$L18"}]}],null,["$","$L19",null,{"children":["$","$2",null,{"name":"Next.MetadataOutlet","children":"$@1a"}]}]]}],"p":"$@1b","v":"$1c","s":"$11"}}]]
+15:[["children",{"s":{"n":"slug","t":"d","k":null,"s":[]},"h":16482,"d":{"r":["$","$1","c",{"children":[null,["$","$L7",null,{"parallelRouterKey":"children","template":["$","$La",null,{}]}]]}],"p":"$@16","v":"$14","s":"$11"},"c":"$Q17"}]]
+12:[["children",{"s":"pages","h":16482,"d":{"r":["$","$1","c",{"children":[null,["$","$L7",null,{"parallelRouterKey":"children","template":["$","$La",null,{}]}]]}],"p":"$@13","v":"$14","s":"$11"},"c":"$Q15"}]]
+23:X
+26:X
+0:{"t":{"t":{"s":"","h":16466,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/33fwqbjf2v5ph.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/1tq6ppe__m8m-.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/1gvpae_se75vl.js","async":true}]],["$","html",null,{"lang":"en","children":["$","body",null,{"className":"min-h-screen flex flex-col","children":[["$","$2",null,{"fallback":null,"children":"$L3"}],["$","$2",null,{"fallback":["$","header",null,{"className":"sticky top-0 z-40 bg-white shadow-[0_1px_0_var(--color-line)]","children":[["$","div",null,{"className":"h-9 bg-brand-600"}],["$","div",null,{"className":"mx-auto flex max-w-7xl items-center gap-4 px-4 py-3","children":[["$","span",null,{"className":"flex items-center gap-2.5","children":[["$","span",null,{"aria-hidden":"true","className":"grid size-10 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-[0.95rem] font-black tracking-tighter text-white shadow-sm shadow-brand-600/30","children":"MM"}],["$","span",null,{"className":"leading-none","children":[["$","span",null,{"className":"block text-[1.35rem] font-extrabold tracking-tight text-ink uppercase","children":"Mega Mall"}],["$","span",null,{"className":"block text-[0.64rem] font-semibold tracking-[0.22em] text-muted uppercase","children":"Tanzania"}]]}]]}],["$","div",null,{"className":"hidden h-11 flex-1 rounded-full bg-canvas lg:block"}],["$","div",null,{"className":"ml-auto h-11 w-24 rounded-full bg-ink"}]]}],["$","div",null,{"className":"h-12 border-t border-line/70"}]]}],"children":"$L4"}],["$","main",null,{"className":"flex-1","children":["$","$L7",null,{"parallelRouterKey":"children","error":"$9","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/_next/static/chunks/3b1t4romp2lbc.js","async":true}]],"template":["$","$La",null,{}],"notFound":[["$","div",null,{"className":"mx-auto grid max-w-lg place-items-center gap-3 px-4 py-24 text-center","children":[["$","p",null,{"className":"text-6xl font-bold text-brand-600","children":"404"}],["$","h1",null,{"className":"text-2xl font-bold","children":"We can't find that page"}],["$","p",null,{"className":"text-muted","children":"The product may have been removed, or the link is wrong."}],["$","$Lb",null,{"href":"/products","className":"mt-2 rounded-full bg-brand-600 px-6 py-3 font-semibold text-white","children":"Browse all products"}]]}],[]]}]}],["$","$2",null,{"fallback":null,"children":"$Lc"}],["$","$Ld",null,{}],["$","$2",null,{"fallback":null,"children":"$Le"}]]}]}]]}],"p":"$@f","v":"$10","s":"$11"},"c":"$Q12"},"h":{"r":["$","$1","h",{"children":[null,["$","$L1e",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#e8650c"}]]}],["$","$L20",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$2",null,{"name":"Next.Metadata","children":"$L21"}]}],null]}],null]}],"p":"$@22","v":"$23","s":"$11"}},"a":"$@24","u":"$@25","b":"Lr1ND0wOuc1hJxhImyq_4","r":"$26"}
+11:C
+23:C
+26:C
+1c:C
+10:C
+25:true
+24:4603
+16:"$undefined"
+13:"$undefined"
