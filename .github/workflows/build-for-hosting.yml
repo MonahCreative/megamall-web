@@ -30,6 +30,7 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_API_URL: https://api.megamall.co.tz
+          NEXT_PUBLIC_SITE_URL: https://megamall.co.tz
           NEXT_TELEMETRY_DISABLED: 1
 
       - name: Assemble the standalone server
