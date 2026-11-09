@@ -1,0 +1,3 @@
+module.exports=[3363,a=>{"use strict";var b=a.i(7997),c=a.i(95936);a.s(["default",0,function(){return(0,b.jsxs)("div",{className:"mx-auto grid max-w-lg place-items-center gap-3 px-4 py-24 text-center",children:[(0,b.jsx)("p",{className:"text-6xl font-bold text-brand-600",children:"404"}),(0,b.jsx)("h1",{className:"text-2xl font-bold",children:"We can't find that page"}),(0,b.jsx)("p",{className:"text-muted",children:"The product may have been removed, or the link is wrong."}),(0,b.jsx)(c.default,{href:"/products",className:"mt-2 rounded-full bg-brand-600 px-6 py-3 font-semibold text-white",children:"Browse all products"})]})}])},17537,function(a){a.n(a.i(3363))}];
+
+//# sourceMappingURL=src_app_not-found_tsx_1863-sqmkh7ny._.js.map

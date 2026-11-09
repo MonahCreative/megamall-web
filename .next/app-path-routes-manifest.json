@@ -1,0 +1,20 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/apple-icon.png/route": "/apple-icon.png",
+  "/category/[slug]/page": "/category/[slug]",
+  "/checkout/page": "/checkout",
+  "/favicon.ico/route": "/favicon.ico",
+  "/icon.png/route": "/icon.png",
+  "/opengraph-image.png/route": "/opengraph-image.png",
+  "/order/[number]/page": "/order/[number]",
+  "/page": "/",
+  "/pages/[slug]/page": "/pages/[slug]",
+  "/product/[slug]/page": "/product/[slug]",
+  "/products/page": "/products",
+  "/returns/page": "/returns",
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
+  "/track/page": "/track",
+  "/wishlist/page": "/wishlist"
+}
