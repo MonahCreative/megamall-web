@@ -158,13 +158,13 @@ async function Product({ params }: { params: Params }) {
               <li className="flex gap-3">
                 <ShieldCheck className="size-5 shrink-0 text-whatsapp" />
                 <span>
-                  <strong>Dar es Salaam:</strong> pay on delivery, after you check the item. Usually delivered within 24 hours; the rider is paid directly.
+                  <strong>Dar es Salaam:</strong> pay on delivery, after you check the item. Usually delivered within 24 hours.
                 </span>
               </li>
               <li className="flex gap-3">
                 <Truck className="size-5 shrink-0 text-brand-600" />
                 <span>
-                  <strong>Other regions:</strong> pay first by mobile money, delivered by bus parcel in 2 to 5 days; bus fare is paid when you collect.
+                  <strong>Other regions:</strong> pay first by mobile money, delivered by bus parcel in 2 to 5 days.
                 </span>
               </li>
             </ul>

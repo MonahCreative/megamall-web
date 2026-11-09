@@ -7,7 +7,6 @@ import { CategoryChips } from "./category-chips";
 import { Logo, WhatsAppIcon } from "./icons";
 import { MobileMenu } from "./mobile-menu";
 import { SearchBox } from "./search-box";
-import { Ticker } from "./ticker";
 import { WishlistLink } from "./wishlist-link";
 
 export async function Header() {
@@ -16,7 +15,6 @@ export async function Header() {
 
   return (
     <header className="sticky top-0 z-40 bg-white shadow-[0_1px_0_var(--color-line)]">
-      <Ticker messages={store?.ticker ?? []} />
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3 lg:flex-nowrap lg:gap-4">
         <MobileMenu categories={categories} />
         <Link href="/" aria-label="Mega Mall home" className="mr-auto lg:mr-2">
@@ -64,7 +62,6 @@ export async function Header() {
 export function HeaderFallback() {
   return (
     <header className="sticky top-0 z-40 bg-white shadow-[0_1px_0_var(--color-line)]">
-      <div className="h-9 bg-brand-600" />
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
         <Logo />
         <div className="hidden h-11 flex-1 rounded-full bg-canvas lg:block" />

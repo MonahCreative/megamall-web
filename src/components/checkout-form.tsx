@@ -1,6 +1,6 @@
 "use client";
 
-import { Banknote, Loader2, Minus, Plus, ShieldCheck, ShoppingBag, Smartphone, Truck, Zap } from "lucide-react";
+import { Banknote, Loader2, Minus, Plus, ShieldCheck, ShoppingBag, Smartphone, Zap } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -24,7 +24,6 @@ export function CheckoutForm() {
   const [regions, setRegions] = useState<Region[]>([]);
   const [channels, setChannels] = useState<Store["payment_channels"]>([]);
   const [lipa, setLipa] = useState(false);
-  const [deliveryNote, setDeliveryNote] = useState("");
   const [form, setForm] = useState({ customer_name: "", phone: "", email: "", region_id: "", district_id: "", area: "", address: "", notes: "" });
   const [quoteState, setQuoteState] = useState<{ key: string; quote: Quote | null; error: string }>({ key: "", quote: null, error: "" });
   const [errors, setErrors] = useState<Errors>({});
@@ -37,7 +36,6 @@ export function CheckoutForm() {
         setRegions(regionList.data);
         setChannels(store.payment_channels);
         setLipa(store.payment_method === "lipa_namba");
-        setDeliveryNote(store.delivery_note ?? "");
       })
       .catch((error) => setLoadError(error instanceof ApiError ? error.message : "We couldn't load delivery regions."));
   }, []);
@@ -201,7 +199,7 @@ export function CheckoutForm() {
                 <p className="text-base font-bold text-emerald-900">Pay on delivery</p>
                 <p className="text-emerald-900/80">
                   Pay <strong>{tzs(total)}</strong> for your items when the rider arrives in Dar es Salaam, in cash or by mobile money, after you check
-                  them. We call you first to confirm. The rider&apos;s delivery charge is paid to the rider directly.
+                  them. We call you first to confirm.
                 </p>
               </div>
             </div>
@@ -213,10 +211,10 @@ export function CheckoutForm() {
                 <p className="text-sky-900/80">
                   Orders to {region.name} are paid in full before we dispatch.{" "}
                   {lipa
-                    ? "After you place the order we show our Lipa Namba: pay with mobile money and type the transaction ID from the SMS."
+                    ? "After you place the order we show our Lipa Namba. Pay with mobile money and we call you to confirm."
                     : `After you place the order you get a payment prompt on your phone${channels.length ? ` (${channels.map((channel) => channel.label).join(", ")})` : ""}.`}{" "}
                   Delivery takes {region.delivery_days[0]} to{" "}
-                  {region.delivery_days[1]} days. The transport cost is paid to the bus company when you collect your parcel.
+                  {region.delivery_days[1]} days.
                 </p>
               </div>
             </div>
@@ -283,19 +281,11 @@ export function CheckoutForm() {
             <dt className="text-muted">Subtotal</dt>
             <dd className="tabular-nums">{tzs(quote?.subtotal ?? cartSubtotal(items))}</dd>
           </div>
-          <div className="flex justify-between gap-4">
-            <dt className="text-muted">Delivery</dt>
-            <dd className="text-right">Paid to the rider / bus</dd>
-          </div>
           <div className="flex items-baseline justify-between pt-1">
             <dt className="font-semibold">Total</dt>
             <dd className="text-2xl font-bold tabular-nums">{tzs(total)}</dd>
           </div>
         </dl>
-        <p className="flex gap-2 rounded-xl bg-canvas p-3 text-xs text-muted">
-          <Truck className="size-4 shrink-0 text-brand-600" />
-          <span>{deliveryNote || "Delivery is not included in our prices. You pay the rider (Dar es Salaam) or the bus company (other regions) directly."}</span>
-        </p>
         {(quoteError || errors.items) && <p className="rounded-xl bg-sale/10 p-3 text-sm font-semibold text-sale">{errors.items || quoteError}</p>}
         <button
           type="submit"

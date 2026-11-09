@@ -65,7 +65,6 @@ export async function Footer() {
               <span className="font-semibold text-white">Other regions:</span> pay first with{" "}
               {store?.payment_channels.map((channel) => channel.label).join(", ") ?? "mobile money"}.
             </li>
-            <li>Delivery is paid to the rider or bus company directly, not included in our prices.</li>
             <li>Returns accepted within {store?.return_window_days ?? 7} days of delivery.</li>
           </ul>
         </div>

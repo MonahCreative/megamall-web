@@ -83,11 +83,11 @@ export function OrderSummary({ order }: { order: Order }) {
             <dd className="tabular-nums">-{tzs(order.discount)}</dd>
           </div>
         )}
-        {order.channel !== "pos" && (
+        {/* Only older orders carry a delivery fee; new ones don't charge delivery in the shop. */}
+        {order.channel !== "pos" && order.delivery_fee > 0 && (
           <div className="flex justify-between gap-4">
             <dt className="text-muted">Delivery</dt>
-            {/* Older orders may include a fee; new ones are paid to the rider or bus company directly. */}
-            <dd className="text-right tabular-nums">{order.delivery_fee > 0 ? tzs(order.delivery_fee) : "Paid to the rider / bus directly"}</dd>
+            <dd className="text-right tabular-nums">{tzs(order.delivery_fee)}</dd>
           </div>
         )}
         <div className="flex items-baseline justify-between">

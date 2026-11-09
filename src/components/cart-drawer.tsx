@@ -89,7 +89,7 @@ export function CartDrawer() {
                 <span className="text-muted">Subtotal</span>
                 <span className="text-lg font-bold tabular-nums">{tzs(cartSubtotal(items))}</span>
               </div>
-              <p className="text-xs text-muted">Payment method depends on your region. Delivery is paid to the rider or bus company directly.</p>
+              <p className="text-xs text-muted">Payment method depends on your region.</p>
               <Link
                 href="/checkout"
                 onClick={close}
