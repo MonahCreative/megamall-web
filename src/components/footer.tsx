@@ -13,9 +13,7 @@ export async function Footer() {
     <footer className="mt-16 bg-navy text-white/80">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div className="grid content-start gap-3">
-          <span className="w-fit rounded-xl bg-white px-3 py-2">
-            <Logo />
-          </span>
+          <Logo variant="dark" className="h-11" />
           <p className="text-sm">{store?.tagline ?? "Everything you need, delivered across Tanzania."}</p>
           {store?.phone && (
             <p className="text-sm">

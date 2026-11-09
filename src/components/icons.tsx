@@ -7,19 +7,16 @@ export function WhatsAppIcon({ className = "size-5" }: { className?: string }) {
   );
 }
 
-export function Logo({ name = "Mega Mall" }: { name?: string }) {
+/** The Mega Mall logo. "dark" is the white-lettered version for dark backgrounds (footer). */
+export function Logo({ variant = "light", className = "h-10 sm:h-11" }: { variant?: "light" | "dark"; className?: string }) {
   return (
-    <span className="flex items-center gap-2.5">
-      <span
-        aria-hidden="true"
-        className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-[0.95rem] font-black tracking-tighter text-white shadow-sm shadow-brand-600/30"
-      >
-        MM
-      </span>
-      <span className="leading-none">
-        <span className="block text-[1.35rem] font-extrabold tracking-tight text-ink uppercase">{name}</span>
-        <span className="block text-[0.64rem] font-semibold tracking-[0.22em] text-muted uppercase">Tanzania</span>
-      </span>
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element -- small static file, already sized
+    <img
+      src={variant === "dark" ? "/brand/logo-white.png" : "/brand/logo.png"}
+      alt="Mega Mall"
+      width={416}
+      height={120}
+      className={`block w-auto ${className}`}
+    />
   );
 }
