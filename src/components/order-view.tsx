@@ -50,6 +50,7 @@ export function OrderView({ params }: { params: Promise<{ number: string }> }) {
   if (!order) return <div className="h-96 animate-pulse rounded-3xl bg-white" />;
 
   const justPaid = order.payment_mode === "prepaid" && order.payment_status === "paid";
+  const checking = order.needs_payment && order.payment?.status === "pending" && order.payment.method === "lipa_namba";
 
   return (
     <div className="grid gap-5">
@@ -62,13 +63,15 @@ export function OrderView({ params }: { params: Promise<{ number: string }> }) {
           <CheckCircle2 className="mx-auto size-11 text-whatsapp" />
         )}
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-          {order.needs_payment ? "Pay to confirm your order" : justPaid ? "Payment received. Asante!" : order.status === "cancelled" ? "Order cancelled" : "Order placed. Asante!"}
+          {checking ? "Payment sent. Asante!" : order.needs_payment ? "Pay to confirm your order" : justPaid ? "Payment received. Asante!" : order.status === "cancelled" ? "Order cancelled" : "Order placed. Asante!"}
         </h1>
         <p className="text-muted">
           Order <strong className="text-ink">{order.order_number}</strong>
         </p>
         <p className="mx-auto max-w-md text-sm text-muted">
-          {order.needs_payment
+          {checking
+            ? "Your items are reserved while we check your payment."
+            : order.needs_payment
             ? `Your items are reserved. Pay ${tzs(order.total)} below to confirm, or the order is cancelled automatically.`
             : order.payment_mode === "cod" && order.status === "pending"
               ? `We will call ${order.phone} to confirm, then deliver. Have ${tzs(order.total)} ready when the rider arrives.`

@@ -97,7 +97,13 @@ export type Store = {
   /** Colours chosen by the admin under Store settings, as #rrggbb. */
   theme?: { primary: string; dark: string; sale: string };
   payment_channels: { key: string; label: string }[];
+  /** How upcountry orders are paid: to the shop's Lipa Namba (staff confirm), or automatic PIN prompt. */
+  payment_method?: "lipa_namba" | "automatic";
+  lipa_numbers?: LipaNumber[];
+  lipa_note?: string | null;
 };
+
+export type LipaNumber = { channel: string; label: string; number: string; name: string };
 
 export type Region = {
   id: number;
@@ -119,6 +125,8 @@ export type Quote = {
 
 export type Payment = {
   reference: string;
+  /** "lipa_namba" = the customer sent a transaction ID that staff check; "automatic" = PIN prompt. */
+  method?: "lipa_namba" | "automatic";
   channel: string;
   channel_label: string;
   amount: number;

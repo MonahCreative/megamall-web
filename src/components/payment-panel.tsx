@@ -7,21 +7,46 @@ import { normalizePhone, tzs } from "@/lib/format";
 import type { Order, Store } from "@/lib/types";
 import { Countdown } from "./countdown";
 import { Field, TextInput } from "./form";
+import { LipaNambaPanel, channelColours as colours } from "./lipa-namba-panel";
 
-const colours: Record<string, string> = { mpesa: "#e4002b", mixx: "#1d4fd8", airtel: "#ed1c24", halopesa: "#f28c00" };
+type Props = { order: Order; token: string; onUpdate: (order: Order) => void };
 
-/** Mobile money for orders outside Dar es Salaam: send the PIN prompt, then wait for it to be approved. */
-export function PaymentPanel({ order, token, onUpdate }: { order: Order; token: string; onUpdate: (order: Order) => void }) {
-  const [channels, setChannels] = useState<Store["payment_channels"]>([]);
+/**
+ * Payment for orders outside Dar es Salaam. The admin chooses how (Store settings):
+ * Lipa Namba (pay to the shop's till number, staff confirm) or automatic (PIN prompt).
+ */
+export function PaymentPanel(props: Props) {
+  const [store, setStore] = useState<Store | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    api<Store>("/store").then(setStore).catch(() => setFailed(true));
+  }, []);
+
+  if (!store) {
+    return failed ? (
+      <p className="rounded-3xl bg-white p-6 text-center text-sm text-muted">We couldn&apos;t load the payment details. Refresh the page to try again.</p>
+    ) : (
+      <div className="h-72 animate-pulse rounded-3xl bg-white" />
+    );
+  }
+
+  // An automatic payment already in progress finishes the automatic way, even if the setting just changed.
+  const automaticInProgress = props.order.payment?.status === "pending" && props.order.payment.method !== "lipa_namba";
+  if (store.payment_method === "lipa_namba" && !automaticInProgress) {
+    return <LipaNambaPanel {...props} store={store} />;
+  }
+
+  return <AutomaticPayment {...props} channels={store.payment_channels} />;
+}
+
+/** Automatic mobile money: send the PIN prompt, then wait for it to be approved. */
+function AutomaticPayment({ order, token, onUpdate, channels }: Props & { channels: Store["payment_channels"] }) {
   const [channel, setChannel] = useState("mpesa");
   const [phone, setPhone] = useState(order.phone?.replace(/\s/g, "") ?? "");
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
   const waiting = order.payment?.status === "pending";
-
-  useEffect(() => {
-    api<Store>("/store").then((store) => setChannels(store.payment_channels)).catch(() => undefined);
-  }, []);
 
   // While the customer approves on their phone, check every 3 seconds for up to 3 minutes.
   useEffect(() => {

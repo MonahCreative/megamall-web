@@ -23,6 +23,7 @@ export function CheckoutForm() {
   const hydrated = useHydrated();
   const [regions, setRegions] = useState<Region[]>([]);
   const [channels, setChannels] = useState<Store["payment_channels"]>([]);
+  const [lipa, setLipa] = useState(false);
   const [deliveryNote, setDeliveryNote] = useState("");
   const [form, setForm] = useState({ customer_name: "", phone: "", email: "", region_id: "", district_id: "", area: "", address: "", notes: "" });
   const [quoteState, setQuoteState] = useState<{ key: string; quote: Quote | null; error: string }>({ key: "", quote: null, error: "" });
@@ -35,6 +36,7 @@ export function CheckoutForm() {
       .then(([regionList, store]) => {
         setRegions(regionList.data);
         setChannels(store.payment_channels);
+        setLipa(store.payment_method === "lipa_namba");
         setDeliveryNote(store.delivery_note ?? "");
       })
       .catch((error) => setLoadError(error instanceof ApiError ? error.message : "We couldn't load delivery regions."));
@@ -209,8 +211,11 @@ export function CheckoutForm() {
               <div className="grid gap-1 text-sm">
                 <p className="text-base font-bold text-sky-900">Pay before delivery</p>
                 <p className="text-sky-900/80">
-                  Orders to {region.name} are paid in full before we dispatch. After you place the order you get a payment prompt on your phone
-                  {channels.length ? ` (${channels.map((channel) => channel.label).join(", ")})` : ""}. Delivery takes {region.delivery_days[0]} to{" "}
+                  Orders to {region.name} are paid in full before we dispatch.{" "}
+                  {lipa
+                    ? "After you place the order we show our Lipa Namba: pay with mobile money and type the transaction ID from the SMS."
+                    : `After you place the order you get a payment prompt on your phone${channels.length ? ` (${channels.map((channel) => channel.label).join(", ")})` : ""}.`}{" "}
+                  Delivery takes {region.delivery_days[0]} to{" "}
                   {region.delivery_days[1]} days. The transport cost is paid to the bus company when you collect your parcel.
                 </p>
               </div>

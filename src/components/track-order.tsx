@@ -3,11 +3,12 @@
 import { Loader2, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ApiError, post } from "@/lib/api";
 import type { Order } from "@/lib/types";
 import { Field, TextInput } from "./form";
 import { OrderSummary, OrderTimeline } from "./order-summary";
+import { PaymentPanel } from "./payment-panel";
 
 export function TrackOrder() {
   const search = useSearchParams();
@@ -15,6 +16,8 @@ export function TrackOrder() {
   const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  // Payment updates don't carry the access code, so keep the one from the Track answer.
+  const updateOrder = useCallback((next: Order) => setOrder((previous) => ({ ...next, access_token: previous?.access_token })), []);
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -45,6 +48,8 @@ export function TrackOrder() {
         </button>
         {error && <p className="text-sm font-semibold text-sale sm:col-span-3">{error}</p>}
       </form>
+
+      {order?.needs_payment && order.access_token && <PaymentPanel order={order} token={order.access_token} onUpdate={updateOrder} />}
 
       {order && (
         <div className="grid gap-6 rounded-3xl bg-white p-5 sm:p-7">
