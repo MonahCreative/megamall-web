@@ -41,9 +41,6 @@ export async function Footer() {
               <Link href="/track" className="hover:text-white">Track your order</Link>
             </li>
             <li>
-              <Link href="/returns" className="hover:text-white">Return an item</Link>
-            </li>
-            <li>
               <Link href="/products" className="hover:text-white">All products</Link>
             </li>
             {pages.map((page) => (

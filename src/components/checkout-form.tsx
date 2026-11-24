@@ -8,7 +8,7 @@ import { ApiError, api, post } from "@/lib/api";
 import { cartCount, cartSubtotal, rememberOrder, useCart } from "@/lib/cart";
 import { normalizePhone, tzs } from "@/lib/format";
 import { useHydrated } from "@/lib/use-hydrated";
-import type { Order, Quote, Region, Store } from "@/lib/types";
+import type { Order, Quote, Region } from "@/lib/types";
 import { Field, Select, TextArea, TextInput } from "./form";
 
 type Errors = Record<string, string>;
@@ -22,8 +22,6 @@ export function CheckoutForm() {
   const items = useMemo(() => (buying && buyNow ? [buyNow] : cart), [buying, buyNow, cart]);
   const hydrated = useHydrated();
   const [regions, setRegions] = useState<Region[]>([]);
-  const [channels, setChannels] = useState<Store["payment_channels"]>([]);
-  const [lipa, setLipa] = useState(false);
   const [form, setForm] = useState({ customer_name: "", phone: "", email: "", region_id: "", district_id: "", area: "", address: "", notes: "" });
   const [quoteState, setQuoteState] = useState<{ key: string; quote: Quote | null; error: string }>({ key: "", quote: null, error: "" });
   const [errors, setErrors] = useState<Errors>({});
@@ -31,12 +29,8 @@ export function CheckoutForm() {
   const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
-    Promise.all([api<{ data: Region[] }>("/regions"), api<Store>("/store")])
-      .then(([regionList, store]) => {
-        setRegions(regionList.data);
-        setChannels(store.payment_channels);
-        setLipa(store.payment_method === "lipa_namba");
-      })
+    api<{ data: Region[] }>("/regions")
+      .then((regionList) => setRegions(regionList.data))
       .catch((error) => setLoadError(error instanceof ApiError ? error.message : "We couldn't load delivery regions."));
   }, []);
 
@@ -210,9 +204,7 @@ export function CheckoutForm() {
                 <p className="text-base font-bold text-sky-900">Pay before delivery</p>
                 <p className="text-sky-900/80">
                   Orders to {region.name} are paid in full before we dispatch.{" "}
-                  {lipa
-                    ? "After you place the order we show our Lipa Namba. Pay with mobile money and we call you to confirm."
-                    : `After you place the order you get a payment prompt on your phone${channels.length ? ` (${channels.map((channel) => channel.label).join(", ")})` : ""}.`}{" "}
+                  After you place the order we show our Lipa Namba. Pay with mobile money and we call you to confirm.{" "}
                   Delivery takes {region.delivery_days[0]} to{" "}
                   {region.delivery_days[1]} days.
                 </p>

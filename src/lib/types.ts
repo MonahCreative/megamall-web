@@ -18,8 +18,6 @@ export type ProductCard = {
   has_video: boolean;
   has_variants: boolean;
   sold_count: number;
-  rating: number | null;
-  review_count: number;
   image: string | null;
   category?: { id: number; name: string; slug: string };
 };
@@ -33,12 +31,8 @@ export type ProductDetail = ProductCard & {
   variants: Variant[];
 };
 
-export type ReviewSummary = { average: number | null; count: number; breakdown: Record<string, number> };
-export type ReviewItem = { name: string; rating: number; comment: string | null; reply: string | null; date: string };
-
 export type ProductPage = {
   data: ProductDetail;
-  reviews: { summary: ReviewSummary; items: ReviewItem[] };
   related: ProductCard[];
 };
 
@@ -51,9 +45,7 @@ export type Category = {
   id: number;
   name: string;
   slug: string;
-  image: string | null;
   product_count: number;
-  children: { id: number; name: string; slug: string; product_count: number }[];
 };
 
 export type Banner = {
@@ -90,15 +82,12 @@ export type Store = {
   phone: string | null;
   whatsapp: string | null;
   email: string | null;
-  ticker: string[];
   return_window_days: number;
-  /** Explains that delivery is paid to the rider or bus company, not to the shop. */
-  delivery_note?: string;
   /** Colours chosen by the admin under Store settings, as #rrggbb. */
   theme?: { primary: string; dark: string; sale: string };
   payment_channels: { key: string; label: string }[];
-  /** How upcountry orders are paid: to the shop's Lipa Namba (staff confirm), or automatic PIN prompt. */
-  payment_method?: "lipa_namba" | "automatic";
+  /** Upcountry orders are paid to the shop's Lipa Namba; staff confirm each payment. */
+  payment_method?: "lipa_namba";
   lipa_numbers?: LipaNumber[];
   lipa_note?: string | null;
 };
@@ -125,8 +114,8 @@ export type Quote = {
 
 export type Payment = {
   reference: string;
-  /** "lipa_namba" = the customer sent a transaction ID that staff check; "automatic" = PIN prompt. */
-  method?: "lipa_namba" | "automatic";
+  /** "lipa_namba" = the customer sent a transaction ID that staff check; "manual" = recorded by staff (e.g. cash to the rider). */
+  method?: "lipa_namba" | "manual";
   channel: string;
   channel_label: string;
   amount: number;
@@ -163,7 +152,6 @@ export type Order = {
   created_at: string;
   items: { id: number; product_id: number | null; name: string; variant: string | null; unit_price: number; quantity: number; line_total: number }[];
   payment: Payment | null;
-  returns: { return_number: string; status: string; status_label: string; refund_amount: number; created_at: string }[];
 };
 
 /** A shop page written in the admin (Terms, Privacy, Return policy...). */

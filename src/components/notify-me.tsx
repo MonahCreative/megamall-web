@@ -7,7 +7,7 @@ import { normalizePhone } from "@/lib/format";
 import type { Variant } from "@/lib/types";
 
 /**
- * "SMS me when it's back in stock". For a sold-out product, or (with soldOutVariants) for sizes that are sold out.
+ * "Tell me when it's back in stock": staff call or WhatsApp the customer when it is restocked. For a sold-out product, or (with soldOutVariants) for sizes that are sold out.
  */
 export function NotifyMe({ slug, soldOutVariants = [], wholeProduct }: { slug: string; soldOutVariants?: Variant[]; wholeProduct: boolean }) {
   const [open, setOpen] = useState(wholeProduct);
@@ -18,7 +18,7 @@ export function NotifyMe({ slug, soldOutVariants = [], wholeProduct }: { slug: s
   if (state.status === "done") {
     return (
       <p className="flex items-center gap-2 rounded-xl bg-emerald-50 p-3 text-sm font-semibold text-emerald-800">
-        <CheckCircle2 className="size-5 shrink-0" /> Done! We will SMS {phone} as soon as it is back.
+        <CheckCircle2 className="size-5 shrink-0" /> Done! We will contact {phone} as soon as it is back.
       </p>
     );
   }
@@ -26,7 +26,7 @@ export function NotifyMe({ slug, soldOutVariants = [], wholeProduct }: { slug: s
   if (!open) {
     return (
       <button type="button" onClick={() => setOpen(true)} className="flex w-fit items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline">
-        <BellRing className="size-4" /> Size you want sold out? Get an SMS when it is back
+        <BellRing className="size-4" /> Size you want sold out? We can tell you when it is back
       </button>
     );
   }
@@ -49,7 +49,7 @@ export function NotifyMe({ slug, soldOutVariants = [], wholeProduct }: { slug: s
   return (
     <form onSubmit={submit} noValidate className="grid gap-3 rounded-2xl border border-line bg-white p-4">
       <p className="flex items-center gap-2 font-semibold">
-        <BellRing className="size-5 text-brand-600" /> {wholeProduct ? "Sold out. Get an SMS when it is back" : "Get an SMS when a size is back"}
+        <BellRing className="size-5 text-brand-600" /> {wholeProduct ? "Sold out. We can tell you when it is back" : "Tell me when a size is back"}
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
         {!wholeProduct && soldOutVariants.length > 0 && (

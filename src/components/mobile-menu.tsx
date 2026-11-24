@@ -52,8 +52,8 @@ export function MobileMenu({ categories }: { categories: Category[] }) {
               <Link href="/track" onClick={close} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-canvas">
                 <Package className="size-4.5" /> Track order
               </Link>
-              <Link href="/returns" onClick={close} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-canvas">
-                <RotateCcw className="size-4.5" /> Return an item
+              <Link href="/pages/return-policy" onClick={close} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-canvas">
+                <RotateCcw className="size-4.5" /> Return policy
               </Link>
             </div>
           </aside>

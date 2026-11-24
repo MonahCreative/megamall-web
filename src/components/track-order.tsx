@@ -61,21 +61,12 @@ export function TrackOrder() {
           </div>
           <OrderTimeline order={order} />
           <OrderSummary order={order} />
-          {order.returns.length > 0 && (
-            <ul className="grid gap-2 border-t border-line pt-4 text-sm">
-              {order.returns.map((item) => (
-                <li key={item.return_number}>
-                  Return <strong>{item.return_number}</strong>: {item.status_label}
-                </li>
-              ))}
-            </ul>
-          )}
           {order.status === "delivered" && (
             <Link
-              href={`/returns?order=${encodeURIComponent(order.order_number)}`}
+              href="/pages/return-policy"
               className="flex w-fit items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-semibold hover:border-brand-500"
             >
-              <RotateCcw className="size-4" /> Return an item
+              <RotateCcw className="size-4" /> How to return an item
             </Link>
           )}
         </div>

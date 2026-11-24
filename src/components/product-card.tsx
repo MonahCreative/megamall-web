@@ -3,7 +3,6 @@ import Link from "next/link";
 import { tzs } from "@/lib/format";
 import type { ProductCard as Product } from "@/lib/types";
 import { QuickAdd } from "./quick-add";
-import { Stars } from "./stars";
 import { WishlistButton } from "./wishlist-button";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -40,11 +39,6 @@ export function ProductCard({ product }: { product: Product }) {
         <Link href={`/product/${product.slug}`} className="line-clamp-2 min-h-[2.6em] text-[0.92rem] leading-snug font-medium text-ink hover:text-brand-700">
           {product.name}
         </Link>
-        {product.rating ? (
-          <span className="flex items-center gap-1.5 text-xs text-muted">
-            <Stars rating={product.rating} /> ({product.review_count})
-          </span>
-        ) : null}
         <div className="mt-auto flex flex-wrap items-baseline gap-x-2">
           <span className="text-[1.05rem] font-bold text-brand-600 tabular-nums">{tzs(product.price)}</span>
           {product.compare_at_price ? (

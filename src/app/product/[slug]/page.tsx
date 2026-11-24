@@ -8,8 +8,6 @@ import { Countdown } from "@/components/countdown";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductRow } from "@/components/product-row";
 import { RecentlyViewed, TrackView } from "@/components/recently-viewed";
-import { ReviewForm } from "@/components/review-form";
-import { Stars } from "@/components/stars";
 import { ApiError, getProduct, getStore } from "@/lib/api";
 import { tzs } from "@/lib/format";
 import { SITE_URL } from "@/lib/site";
@@ -66,10 +64,6 @@ function ProductStructuredData({ product }: { product: ProductData["data"] }) {
       availability: product.in_stock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       itemCondition: "https://schema.org/NewCondition",
     },
-    aggregateRating:
-      product.rating && product.review_count > 0
-        ? { "@type": "AggregateRating", ratingValue: product.rating, reviewCount: product.review_count }
-        : undefined,
   };
 
   // "<" is escaped so text from the admin can never close the script tag.
@@ -94,7 +88,7 @@ function videoEmbed(url: string): string | null {
 
 async function Product({ params }: { params: Params }) {
   const { slug } = await params;
-  const [{ data: product, reviews, related }, store] = await Promise.all([load(slug), getStore().catch(() => null)]);
+  const [{ data: product, related }, store] = await Promise.all([load(slug), getStore().catch(() => null)]);
   const embed = product.video_url ? videoEmbed(product.video_url) : null;
   const badge = product.discount_percent ? `-${product.discount_percent}%` : null;
 
@@ -124,11 +118,6 @@ async function Product({ params }: { params: Params }) {
             <div className="grid gap-2">
               {product.brand && <span className="text-sm font-semibold tracking-wide text-brand-700 uppercase">{product.brand}</span>}
               <h1 className="text-3xl leading-tight font-bold tracking-tight text-balance sm:text-4xl">{product.name}</h1>
-              {reviews.summary.count > 0 && reviews.summary.average !== null && (
-                <a href="#reviews" className="flex w-fit items-center gap-2 text-sm text-muted hover:text-ink">
-                  <Stars rating={reviews.summary.average} size="size-4" /> {reviews.summary.average} ({reviews.summary.count} reviews)
-                </a>
-              )}
             </div>
 
             <div className="grid gap-2 rounded-2xl bg-white p-5">
@@ -197,52 +186,6 @@ async function Product({ params }: { params: Params }) {
         </section>
       )}
 
-      <section id="reviews" className="grid scroll-mt-40 gap-5">
-        <h2 className="text-2xl font-bold tracking-tight">Customer reviews</h2>
-        {reviews.summary.count === 0 ? (
-          <p className="text-muted">No reviews yet. Bought this? Tell other customers what you think.</p>
-        ) : (
-          <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-            <div className="grid content-start gap-3 rounded-2xl bg-white p-5">
-              <span className="text-4xl font-bold">{reviews.summary.average}</span>
-              <Stars rating={reviews.summary.average ?? 0} size="size-5" />
-              <span className="text-sm text-muted">{reviews.summary.count} verified reviews</span>
-              <div className="grid gap-1.5">
-                {[5, 4, 3, 2, 1].map((star) => {
-                  const count = reviews.summary.breakdown[star] ?? 0;
-                  return (
-                    <div key={star} className="flex items-center gap-2 text-xs">
-                      <span className="w-3 tabular-nums">{star}</span>
-                      <span className="h-2 flex-1 overflow-hidden rounded-full bg-canvas">
-                        <span className="block h-full rounded-full bg-amber-400" style={{ width: `${(count / reviews.summary.count) * 100}%` }} />
-                      </span>
-                      <span className="w-5 text-right text-muted tabular-nums">{count}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <ul className="grid content-start gap-3">
-              {reviews.items.map((review, index) => (
-                <li key={index} className="grid gap-2 rounded-2xl bg-white p-5">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-semibold">{review.name}</span>
-                    <span className="text-xs text-muted">{new Date(review.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
-                  </div>
-                  <Stars rating={review.rating} />
-                  {review.comment && <p className="text-sm">{review.comment}</p>}
-                  {review.reply && (
-                    <p className="rounded-xl bg-canvas px-4 py-2.5 text-sm">
-                      <span className="font-semibold">Mega Mall:</span> {review.reply}
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <ReviewForm slug={product.slug} />
-      </section>
 
       <RecentlyViewed excludeId={product.id} />
       {related.length > 0 && <ProductRow section={{ id: 0, title: "You may also like", subtitle: null, source: "related", link: product.category ? `/products?category=${product.category.slug}` : null, products: related }} />}
