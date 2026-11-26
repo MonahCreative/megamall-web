@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /checkout
+Disallow: /order/
+Disallow: /wishlist
+
+Sitemap: https://megamall.co.tz/sitemap.xml
