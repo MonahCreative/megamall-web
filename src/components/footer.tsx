@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getCategories, getPages, getStore } from "@/lib/api";
+import { SOCIAL } from "@/lib/site";
 import { Logo } from "./icons";
 
 export async function Footer() {
@@ -21,13 +22,17 @@ export async function Footer() {
             </p>
           )}
           {store?.email && <p className="text-sm">{store.email}</p>}
+          <p className="flex gap-4 text-sm">
+            <a href={SOCIAL.instagram} target="_blank" rel="noreferrer" className="font-semibold text-white hover:underline">Instagram</a>
+            <a href={SOCIAL.facebook} target="_blank" rel="noreferrer" className="font-semibold text-white hover:underline">Facebook</a>
+          </p>
         </div>
         <div>
           <h2 className="mb-3 font-semibold text-white">Shop</h2>
           <ul className="grid gap-2 text-sm">
             {categories.slice(0, 6).map((category) => (
               <li key={category.id}>
-                <Link href={`/products?category=${category.slug}`} className="hover:text-white">
+                <Link href={`/category/${category.slug}`} className="hover:text-white">
                   {category.name}
                 </Link>
               </li>

@@ -36,7 +36,7 @@ export function MobileMenu({ categories }: { categories: Category[] }) {
               {categories.map((category) => (
                 <Link
                   key={category.id}
-                  href={`/products?category=${category.slug}`}
+                  href={`/category/${category.slug}`}
                   onClick={close}
                   className="flex items-center justify-between rounded-lg px-3 py-2.5 hover:bg-canvas"
                 >

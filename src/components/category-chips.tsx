@@ -8,7 +8,7 @@ import type { Category } from "@/lib/types";
 export function CategoryChips({ categories }: { categories: Category[] }) {
   const pathname = usePathname();
   const params = useSearchParams();
-  const active = pathname === "/products" ? (params.get("category") ?? "all") : null;
+  const active = pathname === "/products" && !params.get("q") ? "all" : pathname.startsWith("/category/") ? decodeURIComponent(pathname.slice(10)) : null;
 
   const chip = (selected: boolean) =>
     `shrink-0 rounded-full px-4 py-1.5 text-[0.86rem] font-semibold transition ${
@@ -21,7 +21,7 @@ export function CategoryChips({ categories }: { categories: Category[] }) {
         <LayoutGrid className="size-4" /> All products
       </Link>
       {categories.map((category) => (
-        <Link key={category.id} href={`/products?category=${category.slug}`} className={chip(active === category.slug)}>
+        <Link key={category.id} href={`/category/${category.slug}`} className={chip(active === category.slug)}>
           {category.name}
         </Link>
       ))}

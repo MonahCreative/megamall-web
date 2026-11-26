@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     entry("/", null, 1),
     entry("/products", null, 0.9),
-    ...(data?.categories ?? []).map((category) => entry(`/products?category=${encodeURIComponent(category.slug)}`, category.updated_at, 0.8)),
+    ...(data?.categories ?? []).map((category) => entry(`/category/${encodeURIComponent(category.slug)}`, category.updated_at, 0.8)),
     ...(data?.products ?? []).map((product) => entry(`/product/${product.slug}`, product.updated_at, 0.7)),
     ...(data?.pages ?? []).map((page) => entry(`/pages/${page.slug}`, page.updated_at, 0.3)),
   ];

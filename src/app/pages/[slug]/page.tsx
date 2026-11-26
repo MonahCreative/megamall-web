@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { WhatsAppIcon } from "@/components/icons";
 import { ApiError, getContentPage, getStore } from "@/lib/api";
 import { whatsappLink } from "@/lib/format";
+import { snippet } from "@/lib/site";
 import type { ContentPage } from "@/lib/types";
 
 type Params = Promise<{ slug: string }>;
@@ -22,7 +23,8 @@ async function load(slug: string): Promise<ContentPage> {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   try {
-    return { title: (await getContentPage(slug)).title };
+    const page = await getContentPage(slug);
+    return { title: page.title, description: snippet(page.body), alternates: { canonical: `/pages/${page.slug}` } };
   } catch {
     return { title: "Page" };
   }

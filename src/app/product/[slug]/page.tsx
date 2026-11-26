@@ -5,13 +5,14 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { BuyBox } from "@/components/buy-box";
 import { Countdown } from "@/components/countdown";
+import { JsonLd } from "@/components/json-ld";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductRow } from "@/components/product-row";
 import { RecentlyViewed, TrackView } from "@/components/recently-viewed";
 import { ApiError, getProduct, getStore } from "@/lib/api";
 import { tzs } from "@/lib/format";
-import { SITE_URL } from "@/lib/site";
-import type { ProductPage as ProductData } from "@/lib/types";
+import { SITE_URL, snippet } from "@/lib/site";
+import type { ProductPage as ProductData, Store } from "@/lib/types";
 
 type Params = Promise<{ slug: string }>;
 
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   try {
     const { data } = await getProduct(slug);
     const price = tzs(data.price) + (data.compare_at_price ? ` (was ${tzs(data.compare_at_price)})` : "");
-    const description = [price, data.in_stock ? null : "Out of stock", data.short_description].filter(Boolean).join(" · ");
+    const description = [price, data.in_stock ? null : "Out of stock", snippet(data.short_description ?? data.description, 120), "Free delivery in Dar es Salaam"].filter(Boolean).join(" · ");
     const images = data.image ? [{ url: data.image, width: 1000, height: 1000, alt: data.name }] : [];
 
     return {
@@ -46,28 +47,73 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   }
 }
 
-/** Product details in Google's format, so search results can show price, stock and stars. */
-function ProductStructuredData({ product }: { product: ProductData["data"] }) {
-  const json = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    image: product.images.length ? product.images : product.image ? [product.image] : undefined,
-    description: product.short_description ?? undefined,
-    brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined,
-    category: product.category?.name,
-    offers: {
-      "@type": "Offer",
-      url: `${SITE_URL}/product/${product.slug}`,
-      priceCurrency: "TZS",
-      price: product.price,
-      availability: product.in_stock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-      itemCondition: "https://schema.org/NewCondition",
+/**
+ * Product details in Google's format, so search results and Google Shopping can show the price, stock,
+ * free delivery in Dar and the return window. Only facts the shop really promises are stated here.
+ */
+function ProductStructuredData({ product, store }: { product: ProductData["data"]; store: Store | null }) {
+  const url = `${SITE_URL}/product/${product.slug}`;
+  const prices = product.variants.length ? product.variants.map((variant) => variant.price) : [product.price];
+  const low = Math.min(...prices);
+  const high = Math.max(...prices);
+  const availability = product.in_stock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock";
+  const seller = { "@type": "Organization", name: store?.name ?? "Mega Mall Tanzania" };
+
+  // Delivery in Dar es Salaam is free on every order and usually arrives within a day.
+  const shippingDetails = {
+    "@type": "OfferShippingDetails",
+    shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "TZS" },
+    shippingDestination: { "@type": "DefinedRegion", addressCountry: "TZ", addressRegion: "Dar es Salaam" },
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 1, unitCode: "DAY" },
+      transitTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 1, unitCode: "DAY" },
     },
   };
+  const returnPolicy = store?.return_window_days
+    ? {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "TZ",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: store.return_window_days,
+        url: `${SITE_URL}/pages/return-policy`,
+      }
+    : undefined;
 
-  // "<" is escaped so text from the admin can never close the script tag.
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(json).replace(/</g, "\\u003c") }} />;
+  const common = { url, priceCurrency: "TZS", availability, itemCondition: "https://schema.org/NewCondition", seller, shippingDetails, hasMerchantReturnPolicy: returnPolicy };
+  const offers =
+    low === high
+      ? { "@type": "Offer", ...common, price: low, priceValidUntil: product.promotion?.ends_at?.slice(0, 10) }
+      : { "@type": "AggregateOffer", ...common, lowPrice: low, highPrice: high, offerCount: prices.length };
+
+  return (
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          sku: `MM-${product.id}`,
+          image: product.images.length ? product.images : product.image ? [product.image] : undefined,
+          description: snippet(product.description, 5000) ?? product.short_description ?? undefined,
+          brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined,
+          category: product.category?.name,
+          offers,
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+            ...(product.category ? [{ "@type": "ListItem", position: 2, name: product.category.name, item: `${SITE_URL}/category/${product.category.slug}` }] : []),
+            { "@type": "ListItem", position: product.category ? 3 : 2, name: product.name, item: url },
+          ],
+        }}
+      />
+    </>
+  );
 }
 
 export default function ProductPage({ params }: { params: Params }) {
@@ -94,7 +140,7 @@ async function Product({ params }: { params: Params }) {
 
   return (
     <div className="grid gap-14">
-      <ProductStructuredData product={product} />
+      <ProductStructuredData product={product} store={store} />
       <TrackView productId={product.id} />
       <div>
         <nav className="mb-4 flex flex-wrap items-center gap-1 text-sm text-muted" aria-label="Breadcrumb">
@@ -102,7 +148,7 @@ async function Product({ params }: { params: Params }) {
           <ChevronRight className="size-3.5" />
           {product.category && (
             <>
-              <Link href={`/products?category=${product.category.slug}`} className="hover:text-brand-700">
+              <Link href={`/category/${product.category.slug}`} className="hover:text-brand-700">
                 {product.category.name}
               </Link>
               <ChevronRight className="size-3.5" />
@@ -188,7 +234,7 @@ async function Product({ params }: { params: Params }) {
 
 
       <RecentlyViewed excludeId={product.id} />
-      {related.length > 0 && <ProductRow section={{ id: 0, title: "You may also like", subtitle: null, source: "related", link: product.category ? `/products?category=${product.category.slug}` : null, products: related }} />}
+      {related.length > 0 && <ProductRow section={{ id: 0, title: "You may also like", subtitle: null, source: "related", link: product.category ? `/category/${product.category.slug}` : null, products: related }} />}
     </div>
   );
 }

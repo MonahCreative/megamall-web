@@ -1,12 +1,17 @@
 import { ChevronRight, ShoppingBag } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HeroSlider } from "@/components/hero-slider";
+import { JsonLd } from "@/components/json-ld";
 import { ProductGrid, ProductGridSkeleton } from "@/components/product-grid";
 import { ProductRow } from "@/components/product-row";
 import { RecentlyViewed } from "@/components/recently-viewed";
 import { getBanners, getProducts, getSections, getStore } from "@/lib/api";
 import { plural } from "@/lib/format";
+import { SITE_URL, SOCIAL } from "@/lib/site";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function HomePage() {
   return (
@@ -21,7 +26,43 @@ export default function HomePage() {
         <AllProducts />
       </Suspense>
       <RecentlyViewed />
+      <Suspense fallback={null}>
+        <StoreStructuredData />
+      </Suspense>
     </div>
+  );
+}
+
+/** Tells Google who runs the shop: name, logo, contact number and social profiles (shown in the business panel). */
+async function StoreStructuredData() {
+  const store = await getStore().catch(() => null);
+  const phone = store?.whatsapp ?? store?.phone;
+  return (
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "OnlineStore",
+          name: store?.name ?? "Mega Mall Tanzania",
+          url: `${SITE_URL}/`,
+          logo: `${SITE_URL}/brand/logo.png`,
+          description: store?.tagline ?? undefined,
+          email: store?.email ?? undefined,
+          telephone: phone ? `+${phone.replace(/\D/g, "").replace(/^0/, "255")}` : undefined,
+          areaServed: { "@type": "Country", name: "Tanzania" },
+          sameAs: [SOCIAL.facebook, SOCIAL.instagram],
+          hasMerchantReturnPolicy: store?.return_window_days
+            ? {
+                "@type": "MerchantReturnPolicy",
+                applicableCountry: "TZ",
+                returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+                merchantReturnDays: store.return_window_days,
+              }
+            : undefined,
+        }}
+      />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: store?.name ?? "Mega Mall Tanzania", alternateName: "Mega Mall", url: `${SITE_URL}/` }} />
+    </>
   );
 }
 

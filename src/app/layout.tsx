@@ -10,18 +10,21 @@ import { ThemeColours } from "@/components/theme-colours";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 
 const description =
-  "Fashion, phones, electronics, home, beauty, groceries and more. Pay on delivery in Dar es Salaam, or pay by mobile money and get delivery to all 31 regions of Tanzania.";
+  "Online shop in Tanzania: electronics, home and kitchen, fashion, beauty and more. Free delivery and pay on delivery in Dar es Salaam; delivery to all 31 regions by bus.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: "Mega Mall Tanzania: shop online, pay on delivery in Dar", template: "%s | Mega Mall Tanzania" },
+  title: { default: "Mega Mall Tanzania: online shop, free delivery in Dar", template: "%s | Mega Mall Tanzania" },
+  applicationName: "Mega Mall Tanzania",
+  // Proves to Google Search Console that this site is ours (set GOOGLE_SITE_VERIFICATION in .env.production).
+  verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   description,
   // Default preview when a shop link is shared on WhatsApp, Facebook, X...; product pages set their own.
   openGraph: { type: "website", siteName: "Mega Mall Tanzania", locale: "en_TZ", title: "Mega Mall Tanzania", description },
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = { themeColor: "#e8650c" };
+export const viewport: Viewport = { themeColor: "#1E2B5D" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
